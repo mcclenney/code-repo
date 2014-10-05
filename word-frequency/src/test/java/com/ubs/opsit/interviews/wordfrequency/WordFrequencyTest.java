@@ -6,44 +6,49 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ubs.opsit.interviews.wordfrequency.AssignImpl;
+import com.ubs.opsit.interviews.wordfrequency.WordFrequencyImpl;
 
 public class WordFrequencyTest {
 	
-	private AssignImpl myImpl = new AssignImpl();
-	private Map<String, Integer> testMap = new HashMap<String, Integer>();
+	private WordFrequency wordFrequencyImpl = new WordFrequencyImpl();
+	private Map<String, Integer> wordCounts = new HashMap<String, Integer>();
 	
 	@Test
-    public void testExample() {
-		String testString1 = "the man in the moon";
-		String testString2 = "the man on the moon";
+    public void shouldReturnCorrectWordCounts() {
+		String firstNormalTestString = "the man in the moon";
+		String secondNormalTestString = "the man on the moon";
 		
-    	testMap.put("the", 2);
-    	testMap.put("man", 1);
-    	testMap.put("in", 1);
-    	testMap.put("moon", 1);
+    	wordCounts.put("the", 2);
+    	wordCounts.put("man", 1);
+    	wordCounts.put("in", 1);
+    	wordCounts.put("moon", 1);
     	
-    	Assert.assertEquals(testMap, myImpl.countOccurrencesOfWordsWithin(testString1));
+    	Assert.assertEquals(wordCounts, wordFrequencyImpl.countOccurrencesOfWordsWithin(firstNormalTestString));
     	
-    	testMap.put("the", 4);
-    	testMap.put("man", 2);
-    	testMap.put("in", 1);
-    	testMap.put("on", 1);
-    	testMap.put("moon", 2);
+    	wordCounts.put("the", 4);
+    	wordCounts.put("man", 2);
+    	wordCounts.put("in", 1);
+    	wordCounts.put("on", 1);
+    	wordCounts.put("moon", 2);
     	
-    	Assert.assertEquals(testMap, myImpl.countOccurrencesOfWordsWithin(testString2));
+    	Assert.assertEquals(wordCounts, wordFrequencyImpl.countOccurrencesOfWordsWithin(secondNormalTestString));
     }
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testNullString() {
+	public void shouldThrowExceptionForNullString() {
 		String nullString = null;
-	    myImpl.countOccurrencesOfWordsWithin(nullString);
+	    wordFrequencyImpl.countOccurrencesOfWordsWithin(nullString);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testEmptyString() {
+	public void shouldThrowExceptionForEmptyString() {
 		String emptyString = "";
-	    myImpl.countOccurrencesOfWordsWithin(emptyString);
+	    wordFrequencyImpl.countOccurrencesOfWordsWithin(emptyString);
 	}
-
+	
+	@Test(expected=UnsupportedOperationException.class)
+	public void shouldThrowExceptionForUpdatingReturnedMap() {
+		Map<String, Integer> noUpdateAllowedMap = wordFrequencyImpl.countOccurrencesOfWordsWithin("any words here");
+		noUpdateAllowedMap.put("anyKey", 1);
+	}
 }
